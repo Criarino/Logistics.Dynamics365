@@ -124,7 +124,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="WebResources\Logistics.Dynamics365.Utilidades.js" />
     <Content Include="WebResources\Logistics.Dynamics365.Exemplo.js" />
+    <Content Include="WebResources\Logistics.Dynamics365.FormatarInput.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
