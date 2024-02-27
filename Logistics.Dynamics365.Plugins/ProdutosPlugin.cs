@@ -1,4 +1,5 @@
-﻿using Microsoft.Xrm.Sdk;
+﻿using Logistics.Dynamics365.Plugins.Gerenciadores;
+using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Logistics.Dynamics365.Plugins
 {
-    internal class ProdutoPlugin : IPlugin
+    public class ProdutosPlugin : IPlugin
     {
         public void Execute(IServiceProvider serviceProvider)
         {
@@ -16,7 +17,14 @@ namespace Logistics.Dynamics365.Plugins
             IOrganizationService service = serviceFactory.CreateOrganizationService(context.UserId);
             ITracingService trace = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
 
+            GerenciadorProduto gerenciadorProduto = new GerenciadorProduto(service,trace);
+            Entity product = (Entity)context.InputParameters["Target"];
 
+            if (context.MessageName.Equals("Create"))
+            {
+                trace.Trace("Integrando Produto....");
+                gerenciadorProduto.OnCreateProudct(product);
+            }
         }
     }
 }
