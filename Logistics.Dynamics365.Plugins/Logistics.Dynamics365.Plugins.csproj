@@ -69,7 +69,7 @@
     </Reference>
     <Reference Include="Microsoft.Xrm.Client, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CrmSdk.Extensions.7.1.0.1\lib\net45\Microsoft.Xrm.Client.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Xrm.Client.CodeGeneration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CrmSdk.Extensions.7.1.0.1\lib\net45\Microsoft.Xrm.Client.CodeGeneration.dll</HintPath>
@@ -175,10 +175,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conexoes\ConexaoDynamics.cs" />
+    <Compile Include="Gerenciadores\GerenciadorGrupoDeUnidade.cs" />
     <Compile Include="Gerenciadores\GerenciadorProduto.cs" />
+    <Compile Include="Gerenciadores\GerenciadorUnidade.cs" />
+    <Compile Include="Gerenciadores\IGerenciadorPlugin.cs" />
+    <Compile Include="GrupoDeUnidadesPlugin.cs" />
     <Compile Include="ProdutosPlugin.cs" />
     <Compile Include="IdentificadorAlfanumerico.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositorio\RepositorioUnidade.cs" />
+    <Compile Include="UnidadePlugin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -188,9 +194,7 @@
     <None Include="packages.config" />
     <None Include="teste.snk" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositorio\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="ILMergeOrder.txt" />
   </ItemGroup>

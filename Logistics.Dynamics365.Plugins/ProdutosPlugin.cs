@@ -17,7 +17,7 @@ namespace Logistics.Dynamics365.Plugins
             IOrganizationService service = serviceFactory.CreateOrganizationService(context.UserId);
             ITracingService trace = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
 
-            GerenciadorProduto gerenciadorProduto = new GerenciadorProduto(service,trace);
+            GerenciadorProduto gerenciadorProduto = new GerenciadorProduto(service, trace);
             Entity product = (Entity)context.InputParameters["Target"];
 
             if (context.MessageName.Equals("Create"))
@@ -25,13 +25,40 @@ namespace Logistics.Dynamics365.Plugins
                 try
                 {
                     trace.Trace("Integrando Produto....");
-                    gerenciadorProduto.OnCreateProudct(product);
-                }catch(Exception ex)
+                    gerenciadorProduto.OnCreate(product);
+                }
+                catch (Exception ex)
+                {
+                    trace.Trace(ex.Message);
+                }
+            }
+            else if (context.MessageName.Equals("Update"))
+            {
+                try
+                {
+                    trace.Trace("(UPDATE) Integrando Produto....");
+                    gerenciadorProduto.OnUpdate(product);
+
+                }
+                catch (Exception ex)
                 {
                     trace.Trace(ex.Message);
                 }
 
+            }
+            else if (context.MessageName.Equals("Delete"))
+            {
+                try
+                {
 
+                    trace.Trace("(UPDATE) Integrando Produto....");
+                    gerenciadorProduto.OnDelete(product);
+
+                }
+                catch (Exception ex)
+                {
+                    trace.Trace(ex.Message);
+                }
             }
         }
     }
