@@ -103,7 +103,6 @@
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Activities" />
@@ -178,6 +177,7 @@
     <Compile Include="Conexoes\ConexaoDynamics.cs" />
     <Compile Include="Gerenciadores\GerenciadorProduto.cs" />
     <Compile Include="ProdutosPlugin.cs" />
+    <Compile Include="IdentificadorAlfanumerico.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +186,7 @@
     <None Include="ChavePlugin.snk" />
     <None Include="ILMerge.props" />
     <None Include="packages.config" />
+    <None Include="teste.snk" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repositorio\" />
