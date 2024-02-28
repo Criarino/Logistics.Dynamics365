@@ -14,28 +14,21 @@ namespace Logistics.Dynamics365.Plugins.Conexoes
     {
         public IOrganizationService Service { get; set; }
 
-        public ConexaoDynamics(string environmentName)
+        public ConexaoDynamics()
         {
-            //string teste = "";
-            //string connectionString = ConfigurationManager.ConnectionStrings[environmentName].ConnectionString;
 
-            //string connectionString = "AuthType=Office365;Username=admin@Logistics573.onmicrosoft.com;Password=$enha123;Url=https://org4847cb57.crm2.dynamics.com;AppId=cac798d8-1560-4b66-8004-efb6c3058f06;";
-
-            //CrmServiceClient crmServiceClient = new CrmServiceClient(connectionString);
-
-            var user = "guiviera@Xmen97.onmicrosoft.com";
-            var password = "Fluminense@123";
-            var url = "https://org20e4d7a3.crm2.dynamics.com";
+            var user = "admin@Logistics573.onmicrosoft.com";
+            var password = "$enha123";
+            var url = "https://org4847cb57.crm2.dynamics.com";
 
             CrmServiceClient crmServiceClient = new CrmServiceClient(
-                "AuthType=OAuth; " +
+                "AuthType=Office365; " +
                 $"Username={user};" +
                 $"Password={password};" +
-                $"Url={url};" +
-                "AppId=ccdda0f7-8b2b-497e-8598-767622ac619c;"
+                $"Url={url};"
                 );
 
-            Service = crmServiceClient.OrganizationWebProxyClient ;
+            Service = crmServiceClient.OrganizationWebProxyClient;
         }
 
     }

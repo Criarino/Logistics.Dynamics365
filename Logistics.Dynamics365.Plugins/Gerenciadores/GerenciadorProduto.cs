@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Services.Description;
 
 namespace Logistics.Dynamics365.Plugins.Gerenciadores
 {
@@ -22,20 +23,19 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
         public void OnCreateProudct(Entity product)
         {
             Trace.Trace("Conexxão iniciada");
-            ConexaoDynamics conn = new ConexaoDynamics("dynamicsii");
+            ConexaoDynamics conn = new ConexaoDynamics();
+            Entity conta = new Entity("account");
+            conta["name"] = "Teste";
+            var idConta = conn.Service.Create(conta);
             Trace.Trace("Conexxão setada");
-            conn.Service.Create(product);
             CreateOnAnotherEnv(product, conn);
             Trace.Trace("Integração finalizada");
         }
 
         public void CreateOnAnotherEnv(Entity product, ConexaoDynamics conn)
         {
-            try
-            {
-                Entity productr = new Entity("product");
-                productr["name"] = "Primeira conta via codigo";
-                var id = conn.Service.Create(productr);
+            try { 
+                var id = conn.Service.Create(product);
             }catch(Exception ex)
             {
                 Trace.Trace(ex.Message);

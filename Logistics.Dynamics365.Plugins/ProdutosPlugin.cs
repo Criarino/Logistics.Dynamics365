@@ -22,8 +22,16 @@ namespace Logistics.Dynamics365.Plugins
 
             if (context.MessageName.Equals("Create"))
             {
-                trace.Trace("Integrando Produto....");
-                gerenciadorProduto.OnCreateProudct(product);
+                try
+                {
+                    trace.Trace("Integrando Produto....");
+                    gerenciadorProduto.OnCreateProudct(product);
+                }catch(Exception ex)
+                {
+                    trace.Trace(ex.Message);
+                }
+
+
             }
         }
     }
