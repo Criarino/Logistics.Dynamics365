@@ -79,12 +79,43 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
 
         public void OnDelete(Entity entity)
         {
-            throw new NotImplementedException();
+            Trace.Trace("Conexxão iniciada");
+            ConexaoDynamics conn = new ConexaoDynamics();
+            Trace.Trace("Conexxão setada");
+            DeleteOnAnotherEnv(entity, conn);
+        }
+
+        public void DeleteOnAnotherEnv(Entity entity, ConexaoDynamics conn)
+        {
+            try
+            {
+                conn.Service.Delete("product", entity.Id);
+            }catch(Exception ex)
+            {
+                Trace.Trace(ex.Message);
+                throw new InvalidPluginExecutionException("Não foi possivel criar o produto no ambiente.");
+            }
         }
 
         public void OnUpdate(Entity entity)
         {
-            throw new NotImplementedException();
+            Trace.Trace("Conexxão iniciada");
+            ConexaoDynamics conn = new ConexaoDynamics();
+            Trace.Trace("Conexxão setada");
+            DeleteOnAnotherEnv(entity, conn);
+        }
+
+        public void UpdateOnAnotherEnv(Entity entity, ConexaoDynamics conn)
+        {
+            try
+            {
+                conn.Service.Update(entity);
+            }
+            catch (Exception ex)
+            {
+                Trace.Trace(ex.Message);
+                throw new InvalidPluginExecutionException("Não foi possivel criar o produto no ambiente.");
+            }
         }
     }
 }
