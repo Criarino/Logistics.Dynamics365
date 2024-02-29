@@ -183,6 +183,7 @@
     <Compile Include="ProdutosPlugin.cs" />
     <Compile Include="IdentificadorAlfanumerico.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositorio\RepositorioProduto.cs" />
     <Compile Include="Repositorio\RepositorioUnidade.cs" />
     <Compile Include="UnidadePlugin.cs" />
   </ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using Logistics.Dynamics365.Plugins.Conexoes;
 using Logistics.Dynamics365.Plugins.Repositorio;
+using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Sdk;
 using System;
@@ -40,26 +41,17 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
                 Guid uomScheduleId = product.GetAttributeValue<EntityReference>("defaultuomscheduleid").Id;
                 Guid uomId = product.GetAttributeValue<EntityReference>("defaultuomid").Id;
 
-                string uomName = getUomName(uomId);
+                string uomName = getUomName(uomId, Service);
 
                 Trace.Trace("Cheguei aqui");
 
-
-                EntityCollection uomCollection = RepositorioUnidade.GetUom(uomScheduleId, uomName, conn.Service);
-
-                Trace.Trace("Cheguei aqui 2");
-
-                Guid newUomID = uomCollection.Entities.First().GetAttributeValue<Guid>("uomid");
-                EntityReference uomEntity = new EntityReference("uom", newUomID);
-                //Entity uomEntity = new Entity(uomName, newUomID);
+                EntityReference uomEntity = buildUomEntity(uomScheduleId, uomName, conn.Service);
 
                 Trace.Trace("Cheguei  3");
-
 
                 newProduct["defaultuomid"] = uomEntity;
 
                 Trace.Trace("Cheguei 4");
-
 
                 var id = conn.Service.Create(newProduct);
             }catch(Exception ex)
@@ -70,9 +62,9 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
 
         }
 
-        public string getUomName(Guid uomId)
+        public string getUomName(Guid uomId, IOrganizationService service)
         {
-            EntityCollection uomCollection = RepositorioUnidade.GetUomName(uomId, Service);
+            EntityCollection uomCollection = RepositorioUnidade.GetUomName(uomId, service);
 
             return (string)uomCollection.Entities.First()["name"];
         }
@@ -109,13 +101,39 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
         {
             try
             {
-                conn.Service.Update(entity);
+                Entity newProduct = entity.Clone();
+
+                if (entity["defaultuomid"] != null)
+                {
+                    Guid uomScheduleId = getUomScheduleIdByProduct(entity.Id,Service);
+                    Guid uomId = entity.GetAttributeValue<EntityReference>("defaultuomid").Id;
+                    string uomName = getUomName(uomId,Service);
+                    EntityReference uomEntity = buildUomEntity(uomScheduleId, uomName, conn.Service);
+                    newProduct["defaultuomid"] = uomEntity;
+                }
+
+                conn.Service.Update(newProduct);
             }
             catch (Exception ex)
             {
                 Trace.Trace(ex.Message);
                 throw new InvalidPluginExecutionException("Não foi possivel criar o produto no ambiente.");
             }
+        }
+
+        public Guid getUomScheduleIdByProduct(Guid productId,IOrganizationService service)
+        {
+            string[] queryCollumns = { "defaultuomscheduleid" };
+            EntityCollection productCollection = RepositorioProduto.getProduct(productId, queryCollumns, service);
+
+            return productCollection.Entities.First().GetAttributeValue<EntityReference>("defaultuomscheduleid").Id;
+        } 
+
+        private EntityReference buildUomEntity(Guid uomScheduleId, string uomName, IOrganizationService service)
+        {
+            EntityCollection uomCollection = RepositorioUnidade.GetUom(uomScheduleId, uomName, service);
+            Guid newUomID = uomCollection.Entities.First().GetAttributeValue<Guid>("uomid");
+            return new EntityReference("uom", newUomID);
         }
     }
 }

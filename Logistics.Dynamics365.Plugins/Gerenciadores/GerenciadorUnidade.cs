@@ -30,12 +30,20 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
 
         public void OnDelete(Entity entity)
         {
-            throw new NotImplementedException();
+            Trace.Trace("Conexxão iniciada");
+            ConexaoDynamics conn = new ConexaoDynamics();
+            Trace.Trace("Conexxão setada");
+            CreateOnAnotherEnv(entity, conn);
+            Trace.Trace("Integração finalizada");
         }
 
         public void OnUpdate(Entity entity)
         {
-            throw new NotImplementedException();
+            Trace.Trace("Conexxão iniciada");
+            ConexaoDynamics conn = new ConexaoDynamics();
+            Trace.Trace("Conexxão setada");
+            CreateOnAnotherEnv(entity, conn);
+            Trace.Trace("Integração finalizada");
         }
 
         public void CreateOnAnotherEnv(Entity entity, ConexaoDynamics conn)

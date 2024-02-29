@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,8 @@ namespace Logistics.Dynamics365.Plugins.Repositorio
 
             return service.RetrieveMultiple(query);
         }
+
+
 
     }
 }
