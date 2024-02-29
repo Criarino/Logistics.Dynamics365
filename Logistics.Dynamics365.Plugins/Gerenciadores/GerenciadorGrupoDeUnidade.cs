@@ -22,38 +22,21 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
 
         public void OnCreate(Entity entity)
         {
-            Trace.Trace("Conexxão iniciada");
             ConexaoDynamics conn = new ConexaoDynamics();
-            Trace.Trace("Conexxão setada");
-            CreateOnAnotherEnv(entity, conn);
-            Trace.Trace("Integração finalizada");
+            conn.Service.Create(entity);
         }
 
         public void OnDelete(Guid entityId)
         {
-            Trace.Trace("Conexxão iniciada");
             ConexaoDynamics conn = new ConexaoDynamics();
-            Trace.Trace("Conexxão setada");
             conn.Service.Delete("uomschedule", entityId);
         }
 
         public void OnUpdate(Entity entity)
         {
-            throw new NotImplementedException();
+            ConexaoDynamics conn = new ConexaoDynamics();
+            conn.Service.Update(entity);
         }
 
-        public void CreateOnAnotherEnv(Entity entity, ConexaoDynamics conn)
-        {
-            try
-            {
-                var id = conn.Service.Create(entity);
-            }
-            catch (Exception ex)
-            {
-                Trace.Trace(ex.Message);
-                throw new InvalidPluginExecutionException("Não foi possivel criar o produto no ambiente.");
-            }
-
-        }
     }
 }

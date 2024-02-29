@@ -27,11 +27,8 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
 
         public void OnCreate(Entity product)
         {
-            Trace.Trace("Conexxão iniciada");
             ConexaoDynamics conn = new ConexaoDynamics();
-            Trace.Trace("Conexxão setada");
             CreateOnAnotherEnv(product, conn);
-            Trace.Trace("Integração finalizada");
         }
 
         public void CreateOnAnotherEnv(Entity product, ConexaoDynamics conn)
@@ -41,18 +38,10 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
                 Entity newProduct = product.Clone();
                 Guid uomScheduleId = product.GetAttributeValue<EntityReference>("defaultuomscheduleid").Id;
                 Guid uomId = product.GetAttributeValue<EntityReference>("defaultuomid").Id;
-
                 string uomName = getUomName(uomId, Service);
-
-                Trace.Trace("Cheguei aqui");
-
                 EntityReference uomEntity = buildUomEntity(uomScheduleId, uomName, conn.Service);
 
-                Trace.Trace("Cheguei  3");
-
                 newProduct["defaultuomid"] = uomEntity;
-
-                Trace.Trace("Cheguei 4");
 
                 var id = conn.Service.Create(newProduct);
             }catch(Exception ex)
@@ -72,18 +61,14 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
 
         public void OnDelete(Guid produtoId)
         {
-            Trace.Trace("Conexxão iniciada");
             ConexaoDynamics conn = new ConexaoDynamics();
-            Trace.Trace("Conexxão setada");
             conn.Service.Delete("product", produtoId);
 
         }
 
         public void OnUpdate(Entity entity)
         {
-            Trace.Trace("Conexxão iniciada");
             ConexaoDynamics conn = new ConexaoDynamics();
-            Trace.Trace("Conexxão setada");
             UpdateOnAnotherEnv(entity, conn);
         }
 
@@ -93,12 +78,13 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
             {
                 Entity newProduct = entity.Clone();
 
-                if (entity["defaultuomid"] != null)
+                if (entity.Contains("defaultuomid"))
                 {
                     Guid uomScheduleId = getUomScheduleIdByProduct(entity.Id,Service);
                     Guid uomId = entity.GetAttributeValue<EntityReference>("defaultuomid").Id;
                     string uomName = getUomName(uomId,Service);
                     EntityReference uomEntity = buildUomEntity(uomScheduleId, uomName, conn.Service);
+
                     newProduct["defaultuomid"] = uomEntity;
                 }
 
@@ -123,6 +109,7 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
         {
             EntityCollection uomCollection = RepositorioUnidade.GetUom(uomScheduleId, uomName, service);
             Guid newUomID = uomCollection.Entities.First().GetAttributeValue<Guid>("uomid");
+
             return new EntityReference("uom", newUomID);
         }
     }
