@@ -13,7 +13,6 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
         ITracingService Trace { get; set; }
 
         void OnCreate(Entity entity);
-        void OnDelete(Entity entity);
         void OnUpdate(Entity entity);
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Metadata;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,9 +29,12 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
             Trace.Trace("Integração finalizada");
         }
 
-        public void OnDelete(Entity entity)
+        public void OnDelete(Guid entityId)
         {
-            throw new NotImplementedException();
+            Trace.Trace("Conexxão iniciada");
+            ConexaoDynamics conn = new ConexaoDynamics();
+            Trace.Trace("Conexxão setada");
+            conn.Service.Delete("uomschedule", entityId);
         }
 
         public void OnUpdate(Entity entity)

@@ -17,22 +17,49 @@ namespace Logistics.Dynamics365.Plugins
             IOrganizationService service = serviceFactory.CreateOrganizationService(context.UserId);
             ITracingService trace = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
 
-            Entity grupoDeUnidade = (Entity)context.InputParameters["Target"];
             GerenciadorGrupoDeUnidade gerenciadorGrupoDeUnidade = new GerenciadorGrupoDeUnidade(service, trace);
 
-            if (context.MessageName.Equals("Create"))
+            if (context.MessageName.Equals("Create")|| (context.MessageName.Equals("Update")))
             {
+            Entity grupoDeUnidade = (Entity)context.InputParameters["Target"];
+                if (context.MessageName.Equals("Create")){
+                    try
+                    {
+                        trace.Trace("Integrando Grupo de Unidade....");
+                        gerenciadorGrupoDeUnidade.OnCreate(grupoDeUnidade);
+                    }
+                    catch (Exception ex)
+                    {
+                        trace.Trace(ex.Message);
+                    }
+                }else if (context.MessageName.Equals("Update"))
+                {
+                    try
+                    {
+                        trace.Trace("(Update)Integrando Grupo de Unidade....");
+                        gerenciadorGrupoDeUnidade.OnUpdate(grupoDeUnidade);
+                    }
+                    catch (Exception ex)
+                    {
+                        trace.Trace(ex.Message);
+                    }
+                }
+
+
+
+            }else if (context.MessageName.Equals("Delete"))
+            {
+                Guid grupoDeUnidadeId = context.PrimaryEntityId;
+
                 try
                 {
-                    trace.Trace("Integrando Grupo de Unidade....");
-                    gerenciadorGrupoDeUnidade.OnCreate(grupoDeUnidade);
+                    trace.Trace("(Delete)Integrando Grupo de Unidade....");
+                    gerenciadorGrupoDeUnidade.OnDelete(grupoDeUnidadeId);
                 }
                 catch (Exception ex)
                 {
                     trace.Trace(ex.Message);
                 }
-
-
             }
 
 

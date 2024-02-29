@@ -18,41 +18,46 @@ namespace Logistics.Dynamics365.Plugins
             ITracingService trace = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
 
             GerenciadorProduto gerenciadorProduto = new GerenciadorProduto(service, trace);
-            Entity product = (Entity)context.InputParameters["Target"];
 
-            if (context.MessageName.Equals("Create"))
+            if (context.MessageName.Equals("Create") || (context.MessageName.Equals("Update")))
             {
-                try
+                Entity product = (Entity)context.InputParameters["Target"];
+                if (context.MessageName.Equals("Create"))
                 {
-                    trace.Trace("Integrando Produto....");
-                    gerenciadorProduto.OnCreate(product);
+                    try
+                    {
+                        trace.Trace("Integrando Produto....");
+                        gerenciadorProduto.OnCreate(product);
+                    }
+                    catch (Exception ex)
+                    {
+                        trace.Trace(ex.Message);
+                    }
                 }
-                catch (Exception ex)
+                else if (context.MessageName.Equals("Update"))
                 {
-                    trace.Trace(ex.Message);
-                }
-            }
-            else if (context.MessageName.Equals("Update"))
-            {
-                try
-                {
-                    trace.Trace("(UPDATE) Integrando Produto....");
-                    gerenciadorProduto.OnUpdate(product);
+                    try
+                    {
+                        trace.Trace("(UPDATE) Integrando Produto....");
+                        gerenciadorProduto.OnUpdate(product);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        trace.Trace(ex.Message);
+                    }
 
                 }
-                catch (Exception ex)
-                {
-                    trace.Trace(ex.Message);
-                }
-
             }
             else if (context.MessageName.Equals("Delete"))
             {
+                Guid produtoId = context.PrimaryEntityId;
+
                 try
                 {
 
                     trace.Trace("(UPDATE) Integrando Produto....");
-                    gerenciadorProduto.OnDelete(product);
+                    gerenciadorProduto.OnDelete(produtoId);
 
                 }
                 catch (Exception ex)

@@ -5,6 +5,7 @@ using Microsoft.Xrm.Client;
 using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Metadata;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,24 +70,13 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
             return (string)uomCollection.Entities.First()["name"];
         }
 
-        public void OnDelete(Entity entity)
+        public void OnDelete(Guid produtoId)
         {
             Trace.Trace("Conexxão iniciada");
             ConexaoDynamics conn = new ConexaoDynamics();
             Trace.Trace("Conexxão setada");
-            DeleteOnAnotherEnv(entity, conn);
-        }
+            conn.Service.Delete("product", produtoId);
 
-        public void DeleteOnAnotherEnv(Entity entity, ConexaoDynamics conn)
-        {
-            try
-            {
-                conn.Service.Delete("product", entity.Id);
-            }catch(Exception ex)
-            {
-                Trace.Trace(ex.Message);
-                throw new InvalidPluginExecutionException("Não foi possivel criar o produto no ambiente.");
-            }
         }
 
         public void OnUpdate(Entity entity)
@@ -94,7 +84,7 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
             Trace.Trace("Conexxão iniciada");
             ConexaoDynamics conn = new ConexaoDynamics();
             Trace.Trace("Conexxão setada");
-            DeleteOnAnotherEnv(entity, conn);
+            UpdateOnAnotherEnv(entity, conn);
         }
 
         public void UpdateOnAnotherEnv(Entity entity, ConexaoDynamics conn)
@@ -129,7 +119,7 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
             return productCollection.Entities.First().GetAttributeValue<EntityReference>("defaultuomscheduleid").Id;
         } 
 
-        private EntityReference buildUomEntity(Guid uomScheduleId, string uomName, IOrganizationService service)
+        private static EntityReference buildUomEntity(Guid uomScheduleId, string uomName, IOrganizationService service)
         {
             EntityCollection uomCollection = RepositorioUnidade.GetUom(uomScheduleId, uomName, service);
             Guid newUomID = uomCollection.Entities.First().GetAttributeValue<Guid>("uomid");
