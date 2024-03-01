@@ -123,6 +123,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="WebResources\Logistics.Dynamics365.Cep.js" />
     <Content Include="WebResources\Logistics.Dynamics365.Utilidades.js" />
     <Content Include="WebResources\Logistics.Dynamics365.Exemplo.js" />
     <Content Include="WebResources\Logistics.Dynamics365.FormatarInput.js" />
