@@ -11,7 +11,33 @@ Logistics.FormatarInputs = {
             pessoaJuridica: 416860001,
             internacional: 416860002
 
+        },
+
+
+        localCliente: {
+
+            nacional: 416860000,
+            internacional: 416860001
+           
+        },
+
+    },
+
+    DefinirLocalCliente: function (context) {
+
+        var formContext = context.getFormContext();
+        var tipoCliente = formContext.getAttribute("alfa_localdocliente").getValue();
+
+        if (tipoCliente === Logistics.FormatarInputs.Enumerador.localCliente.nacional) {  /*cliente nacional*/
+
+            formContext.getControl("alfa_cpf").setVisible(true);
+
+        } else if (tipoCliente === Logistics.FormatarInputs.Enumerador.localCliente.internacional) /*pessoa internacional*/ {
+
+            formContext.getControl("alfa_cpf").setVisible(false)
+
         }
+
 
     },
 
@@ -56,6 +82,24 @@ Logistics.FormatarInputs = {
             formContext.getControl("alfa_cnpj").setVisible(true);
 
         }
+
+    },
+
+    SetVisibleToCPF: function (context) {
+
+        var formContext = context.getFormContext();
+        var cpf = formContext.getAttribute("alfa_cpf").getValue();
+        var tipoCliente = formContext.getAttribute("alfa_localdocliente").getValue();
+
+        if (cpf || tipoCliente === Logistics.FormatarInputs.Enumerador.localCliente.nacional) {
+
+            formContext.getControl("alfa_cpf").setVisible(true);
+
+        } else {
+
+            formContext.getControl("alfa_cpf").setVisible(false);
+        }
+
 
     },
 
@@ -216,6 +260,7 @@ Logistics.FormatarInputs = {
         }
 
     },
+
 
 }
 
