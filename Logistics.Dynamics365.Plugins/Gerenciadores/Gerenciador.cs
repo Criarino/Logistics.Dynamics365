@@ -1,11 +1,11 @@
-﻿using Logistics.Dynamics365.Plugins.Repositorios;
-using Microsoft.Xrm.Sdk;
+﻿using Microsoft.Xrm.Sdk;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Logistics.Dynamics365.Plugins.Repositorios;
 
 namespace Logistics.Dynamics365.Plugins.Gerenciadores
 {
@@ -26,7 +26,7 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
             {
                 string cnpj = conta["alfa_cnpj"].ToString();
 
-                var contas = Repositorio.BuscarContaPorCNPJ(cnpj, Service);
+                var contas = Repositorios.Repositorio.BuscarContaPorCNPJ(cnpj, Service);
 
                 if (contas.Entities.Count() > 0)
                 {
@@ -45,8 +45,9 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
             {
                 string cpf = conta["alfa_cpf"].ToString();
 
-                var contas = Repositorio.BuscarContaPorCPF(cpf, Service);
+                var contas = Repositorios.Repositorio.BuscarContaPorCPF(cpf, Service);
 
+                
                
                 if (contas.Entities.Count() > 0)
                 {
@@ -66,7 +67,7 @@ namespace Logistics.Dynamics365.Plugins.Gerenciadores
             {
                 string cpf = contato["alfa_cpf"].ToString();
 
-                var contatos = Repositorio.BuscarContatoPorCPF(cpf, Service);
+                var contatos = Repositorios.Repositorio.BuscarContatoPorCPF(cpf, Service);
 
 
                 if (contatos.Entities.Count() > 0)

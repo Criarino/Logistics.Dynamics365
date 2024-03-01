@@ -42,12 +42,14 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Logistics.Dynamics365.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Chave.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Azure.Core, Version=1.38.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
       <HintPath>..\packages\Azure.Core.1.38.0\lib\net461\Azure.Core.dll</HintPath>
-
-    <AssemblyOriginatorKeyFile>Chave.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
+    </Reference>
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="AntiXSSLibrary, Version=4.2.0.0, Culture=neutral, PublicKeyToken=d127efab8a9c114f, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CrmSdk.Extensions.7.1.0.1\lib\net45\AntiXSSLibrary.dll</HintPath>
@@ -226,7 +228,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Gerenciadores\Gerenciador.cs" />
-    <Compile Include="Repositórios\Repositorio.cs" />
+    <Compile Include="Repositorios\Repositorio.cs" />
     <Compile Include="VerificarDuplicidadeCNPJ.cs" />
     <Compile Include="VerificarDuplicidadeCPF.cs" />
     <Compile Include="VerificarDuplicidadeCPFContato.cs" />
